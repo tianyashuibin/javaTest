@@ -37,6 +37,7 @@ public class TestController {
         for (int i = 0; i < 1000; i++) {
             String featureName = "feature" + i % 10;
             testPrometheusServiceImpl.testMeter(new TestPrometheusServiceImpl.FeatureConf(featureName, "test"));
+            testPrometheusServiceImpl.testMeterAnnotation(new TestPrometheusServiceImpl.FeatureConf(featureName, "test"));
         }
 
         return "testMeter finished";

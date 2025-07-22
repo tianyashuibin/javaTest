@@ -39,6 +39,12 @@ public class TestPrometheusServiceImpl {
         });
     }
 
+    @Counted(value = "reco.api.annotation", description = "testCount")
+    @Timed(value = "reco.api.annotation", percentiles = {0.5, 0.95, 0.99})
+    public void testMeterAnnotation(FeatureConf conf) {
+
+    }
+
     @Data
     @AllArgsConstructor
     public static class FeatureConf {
