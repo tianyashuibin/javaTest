@@ -1,0 +1,20 @@
+
+spring:
+  application:
+    name: reco-rt
+server:
+  port: 8089
+
+# Dubbo ??
+dubbo:
+  application:
+    name: reco-rt-dubbo  # ???
+  protocol:
+    name: dubbo  # ??
+    port: 20880  # Dubbo ????????
+  registry:
+    address: nacos://127.0.0.1:8848  # Nacos ??
+    parameters:
+      namespace: dev
+  consumer:
+    check: false  # ??????????????????

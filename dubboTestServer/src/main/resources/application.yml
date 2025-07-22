@@ -1,0 +1,35 @@
+
+spring:
+    application:
+        name: reco-rt
+server:
+    port: 8089
+
+# Dubbo ??
+dubbo:
+    application:
+        name: reco-rt-dubbo  # ???
+    protocol:
+        name: dubbo  # ??
+        port: 20880  # Dubbo ????????
+    registry:
+        address: nacos://127.0.0.1:8848  # Nacos ??
+        parameters:
+            namespace: test
+    consumer:
+        check: false  # ??????????????????
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info,prometheus  # 暴露prometheus端点
+    metrics:
+        export:
+            prometheus:
+                enabled: true
+        distribution:
+            percentiles-histogram:
+                http.server.requests: true  # 对HTTP请求启用百分位直方图
+            percentiles:
+                http.server.requests: 0.90,0.95,0.99  # 默认百分位
