@@ -22,11 +22,16 @@ public class TestPrometheusServiceImpl {
 //    @Counted(value = "reco.api.bigdataReco", description = "testCount")
 //    @Timed( value = "reco.api.bigdataReco", description = "testMeter", percentiles = {0.5, 0.95, 0.99}, extraTags = {"feature_name", "#conf.name"})
     public void testMeter(FeatureConf conf) {
+        Timer.Sample sample = Timer.start(registry);
+
         Counter counter = Counter.builder("reco.api.bigdataReco.req")
                 .description("testCount")
                 .tag("feature_name", conf.name)
                 .register(registry);
         counter.increment();
+
+        // 这个方法和上面的方法效果一样，但是更简洁
+        registry.counter("reco.api.bigdataReco.req", "feature_name", conf.name).increment();
 
         Timer timer = Timer.builder("reco.api.bigdataReco")
                 .description("testMeter")
@@ -37,6 +42,8 @@ public class TestPrometheusServiceImpl {
         timer.record(() -> {
             randomSleep();
         });
+
+        sample.stop(Timer.builder("reco.api.bigdataReco.new").tag("feature_name", conf.name).register(registry));
     }
 
     // 注解的方式没有办法传入函数参数，传入的实际是一个字符串 "#{conf.name}"
