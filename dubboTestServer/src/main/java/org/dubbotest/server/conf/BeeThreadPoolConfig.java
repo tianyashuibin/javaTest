@@ -1,5 +1,8 @@
 package org.dubbotest.server.conf;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,9 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Configuration
 public class BeeThreadPoolConfig {
+    @Autowired
+    private MeterRegistry meterRegistry;
     @Bean(name = "itemFeatureExecutor")
     public ExecutorService itemFeatureExecutor() {
-        return new ThreadPoolExecutor(
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 10,
                 30,
                 60L,
@@ -19,6 +24,7 @@ public class BeeThreadPoolConfig {
                 new CustomThreadFactory("itemFeatureThread"),
                 new ThreadPoolExecutor.AbortPolicy()
         );
+        return ExecutorServiceMetrics.monitor(meterRegistry, executor, "itemFeatureThread");
     }
 
     static class CustomThreadFactory implements ThreadFactory {

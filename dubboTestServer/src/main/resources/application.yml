@@ -33,3 +33,4 @@ management:
                 http.server.requests: true  # 对HTTP请求启用百分位直方图
             percentiles:
                 http.server.requests: 0.90,0.95,0.99  # 默认百分位
+# curl localhost:8089/actuator/prometheus
