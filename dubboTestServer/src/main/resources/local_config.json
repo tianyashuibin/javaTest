@@ -1,0 +1,4 @@
+{
+  "xgb_to_triton_models": ["model_1","model_9","model_34"]
+
+}
